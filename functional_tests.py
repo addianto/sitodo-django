@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webelement import WebElement
-from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 
-browser = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser.get("http://localhost:8000")
 
 logo: WebElement = browser.find_element(By.CLASS_NAME, "logo")
