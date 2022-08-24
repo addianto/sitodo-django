@@ -15,6 +15,7 @@ class UISmokeTest(LiveServerTestCase):
 
         if _is_running_on_ci():
             options.headless = True
+            options.add_argument("--disable-gpu")
             # A quickfix based on https://stackoverflow.com/a/50827853
             # options.add_argument("headless")
             # options.add_argument("no-sandbox")
