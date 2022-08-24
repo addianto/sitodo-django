@@ -25,12 +25,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
+      - name: Install Google Chrome
+        uses: abhi1693/setup-browser@v0.3.4
+        with:
+          browser: chrome
+          version: stable
       - name: Run tests
         run: |
           coverage run --source="." manage.py test --testrunner "xmlrunner.extra.djangotestrunner.XMLTestRunner"
           coverage report --show-missing
       - name: Publish test reports
         uses: mikepenz/action-junit-report@v3
+        # TODO: Restrict test report publishing only on pull request. You may
+        # need to check the event type via `github` context.
         if: ${{ always() }}
         with:
+          include_passed: true
           report_paths: "TEST-*.xml"
