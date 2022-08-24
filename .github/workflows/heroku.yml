@@ -1,5 +1,5 @@
 ---
-name: Deploy the main branch to Heroku
+name: Deploy
 
 on:
   # Reminder: Make sure the `branches` list only contain the name of main
@@ -28,7 +28,7 @@ jobs:
         # Heroku stack, i.e. the base operating system and packages that will
         # build and run the app, to use [Heroku-20](https://devcenter.heroku.com/articles/heroku-20-stack)
         # stack.
-        uses: ElayGelbart/Heroku-Auto-Deployment@v1.0.7
+        uses: addianto/Heroku-Auto-Deployment@v1.0.7-fork
         with:
           herokuApiKey: ${{ secrets.HEROKU_API_KEY }}
           herokuAppName: ${{ secrets.HEROKU_APP_NAME }}
