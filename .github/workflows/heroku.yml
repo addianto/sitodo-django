@@ -1,0 +1,34 @@
+---
+name: Deploy the main branch to Heroku
+
+on:
+  # Reminder: Make sure the `branches` list only contain the name of main
+  # branch! Usually, the main branch name is either `master` or `main`.
+  # Check the list of branches of your repository via GitHub Web interface or
+  # use `git branch -av` command in your shell.
+
+  # This event trigger will only run the workflow whenever there are new
+  # commits pushed to the main branch. Therefore, the deployed app that
+  # will be accessed by users will be based on the latest version of the
+  # main branch.
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Deploy to Heroku
+        # Warning: The following version of deployment action will set the
+        # Heroku stack, i.e. the base operating system and packages that will
+        # build and run the app, to use [Heroku-20](https://devcenter.heroku.com/articles/heroku-20-stack)
+        # stack.
+        uses: ElayGelbart/Heroku-Auto-Deployment@v1.0.7
+        with:
+          herokuApiKey: ${{ secrets.HEROKU_API_KEY }}
+          herokuAppName: ${{ secrets.HEROKU_APP_NAME }}
