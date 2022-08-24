@@ -15,7 +15,10 @@ class UISmokeTest(LiveServerTestCase):
 
         if _is_running_on_ci():
             options.headless = True
-            options.add_argument("no-sandbox")
+            # A quickfix based on https://stackoverflow.com/a/50827853
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-extensions")
 
         cls.selenium: WebDriver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install())
