@@ -15,7 +15,6 @@ class UISmokeTest(LiveServerTestCase):
 
         if _is_running_on_ci():
             options.headless = True
-            options.add_argument("--disable-gpu")
             # A quickfix based on https://stackoverflow.com/a/50827853
             # options.add_argument("headless")
             # options.add_argument("no-sandbox")
@@ -24,6 +23,7 @@ class UISmokeTest(LiveServerTestCase):
             # options.add_argument("disable-gpu")
 
         cls.selenium: WebDriver = webdriver.Chrome(
+            options=options,
             service=Service(ChromeDriverManager().install())
         )
         cls.selenium.implicitly_wait(5)
