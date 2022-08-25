@@ -40,4 +40,5 @@ tzdata==2022.2
 unittest-xml-reporting==3.2.0
 urllib3==1.26.12
 webdriver-manager==3.8.3
+whitenoise==6.2.0
 wsproto==1.1.0

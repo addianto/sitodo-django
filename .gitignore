@@ -176,3 +176,6 @@ cython_debug/
 
 # xUnit test report files
 TEST-*.xml
+
+# Static asset files collected by `python manage.py collectstatic` invocation
+staticfiles/
