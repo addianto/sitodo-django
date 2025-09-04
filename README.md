@@ -43,11 +43,17 @@ Run the test suite:
 python manage.py test
 ```
 
-Do not forget to run `ruff` to check issues and autoformat code:
+Do not forget to run `ruff` to check for code writing issues and autoformat code:
 
 ```shell
 ruff check .
 ruff format .
+```
+
+Run the project locally:
+
+```shell
+python manage.py runserver
 ```
 
 At the end of development, or if you want to exit from the virtual environment,

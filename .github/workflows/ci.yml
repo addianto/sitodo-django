@@ -33,18 +33,11 @@ jobs:
       - name: Run tests
         run: |
           python manage.py collectstatic --no-input
-          coverage run --source="." manage.py test --testrunner "xmlrunner.extra.djangotestrunner.XMLTestRunner"
+          coverage run --source="." manage.py test
           coverage report --show-missing
           coverage xml
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v3
-        if: ${{ always() }}
-        with:
-          check_name: Test Report
-          include_passed: true
-          report_paths: "TEST-*.xml"
       - name: Create code coverage summary report
-        uses: irongut/CodeCoverageSummary@v1.3.0
+        uses: fmaeseele/CodeCoverageSummary@v1.3.2
         with:
           filename: coverage.xml
           badge: true
@@ -52,7 +45,7 @@ jobs:
           indicators: true
           output: both
       - name: Embed code coverage report in a pull request (PR)
-        uses: marocchino/sticky-pull-request-comment@v2.2.0
+        uses: marocchino/sticky-pull-request-comment@v2.9.4
         if: ${{ github.event.name == 'pull_request' }}
         with:
           recreate: true
