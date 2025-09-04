@@ -4,17 +4,22 @@
 # - https://github.com/actions/starter-workflows/blob/main/ci/python-app.yml
 name: Continuous Integration (CI)
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
     name: Run tests
-
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -26,34 +31,22 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
       - name: Install Google Chrome
-        # TODO: Bind the GitHub Action below to a fixed version/commit ID
-        uses: browser-actions/setup-chrome@latest
+        uses: browser-actions/setup-chrome@v2.1.0
         with:
-          chrome-version: stable
+          chrome-version: 139
+          install-chromedriver: true
       - name: Run tests
         run: |
           python manage.py collectstatic --no-input
-          coverage run --source="." manage.py test --testrunner "xmlrunner.extra.djangotestrunner.XMLTestRunner"
+          coverage run --source="." manage.py test
           coverage report --show-missing
           coverage xml
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v3
-        if: ${{ always() }}
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          check_name: Test Report
-          include_passed: true
-          report_paths: "TEST-*.xml"
-      - name: Create code coverage summary report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: coverage.xml
-          badge: true
-          format: markdown
-          indicators: true
-          output: both
-      - name: Embed code coverage report in a pull request (PR)
-        uses: marocchino/sticky-pull-request-comment@v2.2.0
-        if: ${{ github.event.name == 'pull_request' }}
-        with:
-          recreate: true
-          path: code-coverage-results.md
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml

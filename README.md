@@ -2,11 +2,11 @@
 
 An attempt reading through "Test-Driven Development with Python" by Harry Percival
 with a twist. Instead of using the old Django version, this project tried to use
-modern Django version 4.
+modern Django version 5.
 
 ## Getting Started
 
-This project requires Django version 4.0 and Python version 3.10.
+This project requires Django version 5 and Python version 3.13.
 Create a virtual environment by using `venv` module:
 
 ```shell
@@ -35,6 +35,25 @@ Install the dependencies, including Django, by using `pip`:
 
 ```shell
 pip install -r requirements.txt
+```
+
+Run the test suite:
+
+```shell
+python manage.py test
+```
+
+Do not forget to run `ruff` to check for code writing issues and autoformat code:
+
+```shell
+ruff check .
+ruff format .
+```
+
+Run the project locally:
+
+```shell
+python manage.py runserver
 ```
 
 At the end of development, or if you want to exit from the virtual environment,

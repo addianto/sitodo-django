@@ -19,17 +19,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Do not forget to override the secret key via environment variable in production
-SECRET_KEY = "django-insecure-!*o4*9ppr)_3b^l$v%iey&ue%($_oo+o_vc$b9k=o_x*8yu_j8"
+SECRET_KEY = getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-!*o4*9ppr)_3b^l$v%iey&ue%($_oo+o_vc$b9k=o_x*8yu_j8",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if getenv_bool("DEBUG") is None else getenv_bool("DEBUG")
 
 ALLOWED_HOSTS = (
-    [] if getenv("ALLOWED_HOSTS") == None else getenv("ALLOWED_HOSTS").split(",")
+    [] if getenv("ALLOWED_HOSTS") is None else getenv("ALLOWED_HOSTS").split(",")
 )
 
 # Application definition
