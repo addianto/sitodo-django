@@ -3,6 +3,8 @@
 ## Testing
 
 - Always run the test suite before and after making changes to the project.
+  Run the test suite with command `python manage.py test`.
+- Run `python manage.py check --deploy` to check deployment readiness of the project at the end of coding session.
 
 ## Code Writing Style
 

@@ -5,8 +5,8 @@ def getenv_bool(key: str) -> Optional[bool]:
     """Get an environment variable as boolean value."""
     from os import getenv
 
-    VALID_TRUE_VALUES: tuple(str) = ("true", "True", "TRUE")
-    VALID_FALSE_VALUES: tuple(str) = ("false", "False", "FALSE")
+    VALID_TRUE_VALUES: tuple[str] = ("true", "True", "TRUE")
+    VALID_FALSE_VALUES: tuple[str] = ("false", "False", "FALSE")
 
     value: Optional[str] = getenv(key)
 
