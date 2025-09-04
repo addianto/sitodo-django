@@ -37,6 +37,19 @@ Install the dependencies, including Django, by using `pip`:
 pip install -r requirements.txt
 ```
 
+Run the test suite:
+
+```shell
+python manage.py test
+```
+
+Do not forget to run `ruff` to check issues and autoformat code:
+
+```shell
+ruff check .
+ruff format .
+```
+
 At the end of development, or if you want to exit from the virtual environment,
 call `deactivate` command:
 
