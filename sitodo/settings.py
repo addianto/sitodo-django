@@ -32,7 +32,7 @@ SECRET_KEY = getenv(
 DEBUG = True if getenv_bool("DEBUG") is None else getenv_bool("DEBUG")
 
 ALLOWED_HOSTS = (
-    [] if getenv("ALLOWED_HOSTS") == None else getenv("ALLOWED_HOSTS").split(",")
+    [] if getenv("ALLOWED_HOSTS") is None else getenv("ALLOWED_HOSTS").split(",")
 )
 
 # Application definition
