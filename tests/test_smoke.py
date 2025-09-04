@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
 import os
+import tempfile
+import shutil
 
 
 class UISmokeTest(LiveServerTestCase):
@@ -16,6 +18,9 @@ class UISmokeTest(LiveServerTestCase):
 
         if _is_running_on_ci():
             options.headless = True
+
+        cls.user_data_dir = tempfile.mkdtemp()
+        options.add_argument(f"--user-data-dir={cls.user_data_dir}")
 
         try:
             cls.selenium: WebDriver = webdriver.Chrome(
@@ -34,6 +39,7 @@ class UISmokeTest(LiveServerTestCase):
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
+        shutil.rmtree(cls.user_data_dir)
         super().tearDownClass()
 
     def test_title(self) -> None:
