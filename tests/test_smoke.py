@@ -39,7 +39,10 @@ class UISmokeTest(LiveServerTestCase):
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
-        shutil.rmtree(cls.user_data_dir)
+
+        if os.path.exists(cls.user_data_dir):
+            shutil.rmtree(cls.user_data_dir, ignore_errors=True)
+
         super().tearDownClass()
 
     def test_title(self) -> None:
