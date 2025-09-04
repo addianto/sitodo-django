@@ -1,9 +1,10 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import WebDriverException
 import os
 
 
@@ -16,9 +17,18 @@ class UISmokeTest(LiveServerTestCase):
         if _is_running_on_ci():
             options.headless = True
 
-        cls.selenium: WebDriver = webdriver.Chrome(
-            options=options, service=Service(ChromeDriverManager().install())
-        )
+        try:
+            cls.selenium: WebDriver = webdriver.Chrome(
+                options=options, service=ChromeService(ChromeDriverManager().install())
+            )
+        except WebDriverException:
+            cls.selenium = webdriver.Chrome(
+                options=options,
+                service=ChromeService(
+                    ChromeDriverManager(chrome_type="chromium").install()
+                ),
+            )
+
         cls.selenium.implicitly_wait(5)
 
     @classmethod
