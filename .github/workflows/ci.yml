@@ -42,7 +42,7 @@ jobs:
           coverage report --show-missing
           coverage xml
       - name: SonarQube Scan
-        uses: SonarSource/sonarcloud-scan-action@v5.3.1
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
