@@ -15,12 +15,17 @@ class UISmokeTest(LiveServerTestCase):
     def setUpClass(cls):
         super().setUpClass()
         options: Options = Options()
+        cls.user_data_dir = tempfile.mkdtemp()
 
         if _is_running_on_ci():
-            options.headless = True
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
 
-        cls.user_data_dir = tempfile.mkdtemp()
         options.add_argument(f"--user-data-dir={cls.user_data_dir}")
+        options.add_argument("--no-sandbox")
+
+        # Reminder: Make sure the browser version here is the same as the version on CI
+        options.browser_version = "139"
 
         try:
             cls.selenium: WebDriver = webdriver.Chrome(

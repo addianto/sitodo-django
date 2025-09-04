@@ -33,10 +33,10 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
       - name: Install Google Chrome
-        # TODO: Bind the GitHub Action below to a fixed version/commit ID
-        uses: browser-actions/setup-chrome@latest
+        uses: browser-actions/setup-chrome@v2.1.0
         with:
-          chrome-version: stable
+          chrome-version: 139
+          install-chromedriver: true
       - name: Run tests
         run: |
           python manage.py collectstatic --no-input
