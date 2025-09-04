@@ -6,22 +6,20 @@ name: Continuous Integration (CI)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
-
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
     name: Run tests
-
     runs-on: ubuntu-24.04
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -43,17 +41,12 @@ jobs:
           coverage run --source="." manage.py test
           coverage report --show-missing
           coverage xml
-      - name: Create code coverage summary report
-        uses: fmaeseele/CodeCoverageSummary@v1.3.2
+      - name: SonarQube Scan
+        uses: SonarSource/sonarcloud-scan-action@v5.3.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          filename: coverage.xml
-          badge: true
-          format: markdown
-          indicators: true
-          output: both
-      - name: Embed code coverage report in a pull request (PR)
-        uses: marocchino/sticky-pull-request-comment@v2.9.4
-        if: ${{ github.event.name == 'pull_request' }}
-        with:
-          recreate: true
-          path: code-coverage-results.md
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml
